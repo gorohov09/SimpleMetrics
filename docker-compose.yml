@@ -10,4 +10,13 @@ services:
       - CLICKHOUSE_PASSWORD=test
       - CLICKHOUSE_DB=metrics
     ports:
-      - "38100:8123"
+      - "8123:8123"
+      - "9000:9000"
+
+  rabbitmq:
+    image: rabbitmq:3.12-management
+    container_name: metrics-rabbitmq
+    hostname: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"

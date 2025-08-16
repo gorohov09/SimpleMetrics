@@ -1,18 +1,34 @@
-var builder = WebApplication.CreateBuilder(args);
-var servies = builder.Services;
+using ClickHouse.Facades.Migrations;
+using Microsoft.Extensions.Options;
+using SimpleMetrics.ClickHouse;
 
-servies.AddControllers();
-servies.AddOpenApi();
+var builder = WebApplication.CreateBuilder(args);
+var services = builder.Services;
+var configuration = builder.Configuration;
+
+var clickHouseSettings = new ClickHouseSettings();
+configuration.Bind(ClickHouseSettings.SectionName, clickHouseSettings);
+services.AddSingleton(Options.Create(clickHouseSettings));
+
+services.AddControllers();
+services.AddOpenApi();
+services.AddClickHouse();
 
 var app = builder.Build();
-
-if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi();
+    using (var scope = app.Services.CreateScope())
+    {
+        await scope.ServiceProvider.ClickHouseMigrateAsync();
+    }
+
+    if (app.Environment.IsDevelopment())
+    {
+        app.MapOpenApi();
+    }
+
+    app.UseAuthorization();
+
+    app.MapControllers();
+
+    app.Run();
 }
-
-app.UseAuthorization();
-
-app.MapControllers();
-
-app.Run();

@@ -14,4 +14,8 @@
     <Folder Include="Controllers\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\SimpleMetrics.ClickHouse\SimpleMetrics.ClickHouse.csproj" />
+  </ItemGroup>
+
 </Project>
