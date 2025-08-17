@@ -1,0 +1,12 @@
+<clickhouse>
+  <named_collections>
+    <my_rabbitmq>
+      <rabbitmq_address>amqp://guest:guest@rabbitmq:5672</rabbitmq_address>
+      <rabbitmq_exchange_name>metrics_exchange</rabbitmq_exchange_name>
+      <rabbitmq_format>JSONEachRow</rabbitmq_format>
+      <rabbitmq_exchange_type>direct</rabbitmq_exchange_type>
+      <rabbitmq_routing_key_list>metrics</rabbitmq_routing_key_list>
+      <rabbitmq_queue_base>metrics_queue</rabbitmq_queue_base>
+    </my_rabbitmq>
+  </named_collections>
+</clickhouse>

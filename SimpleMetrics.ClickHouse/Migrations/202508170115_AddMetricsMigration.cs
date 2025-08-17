@@ -13,21 +13,14 @@ public class AddMetricsMigration : ClickHouseMigration
             (
                 value Decimal(18, 6),
                 timestamp DateTime
-            ) ENGINE = RabbitMQ SETTINGS
-                rabbitmq_address = 'amqp://guest:guest@rabbitmq:5672',
-                rabbitmq_exchange_name = 'metrics_exchange',
-                rabbitmq_format = 'JSONEachRow',
-                rabbitmq_exchange_type = 'direct',
-                rabbitmq_routing_key_list = 'metrics',
-                rabbitmq_queue_base = 'metrics_queue';");
+            ) ENGINE = RabbitMQ(my_rabbitmq);");
 
         migrationBuilder.AddRawSqlStatement(@"
             CREATE TABLE metrics
             (
                 value Decimal(18, 6),
                 timestamp DateTime
-            )
-            ENGINE = MergeTree() ORDER BY timestamp;");
+            ) ENGINE = MergeTree() ORDER BY timestamp;");
 
         migrationBuilder.AddRawSqlStatement(@"
             CREATE MATERIALIZED VIEW metrics_consumer TO metrics

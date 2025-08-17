@@ -12,6 +12,9 @@ services:
     ports:
       - "8123:8123"
       - "9000:9000"
+    volumes:
+      - ./configurations/named_collections.xml:/etc/clickhouse-server/config.d/named_collections.xml
+      - ./configurations/custom_users.xml:/etc/clickhouse-server/users.d/custom_users.xml
 
   rabbitmq:
     image: rabbitmq:3.12-management
